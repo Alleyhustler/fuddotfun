@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FudDotFun - FUD IS FUEL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url('background.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+              font-family: "Pixelify Sans", sans-serif;
+
+            flex-direction: column;
+            position: relative;
+            color: #fff;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.336);
+            z-index: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 140px;
+            height: 140px;
+        }
+
+        .project-name {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2em;
+            letter-spacing: 0.1em;
+        }
+
+        .twitter-link {
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border: 2px solid #fff;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        .twitter-link:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            margin-bottom: 60px;
+        }
+
+        .title {
+            font-size: 4em;
+            margin-bottom: 20px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .fud-generator {
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+            border: 3px solid #fff;
+            margin-bottom: 60px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .fud-display {
+            min-height: 120px;
+            padding: 30px;
+            border: 2px dashed #fff;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .fud-display.empty::before {
+            content: "Press the button to generate FUD...";
+            opacity: 0.5;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.1em;
+            border: 2px solid #fff;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .stat-box {
+            padding: 30px;
+            border: 2px solid #fff;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 40px;
+            padding: 20px 30px;
+            border: 2px solid #fff;
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            opacity: 0;
+            transform: translateX(400px);
+            transition: all 0.4s;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            .project-name {
+                position: static;
+                transform: none;
+                font-size: 1.2em;
+            }
+
+            .title {
+                font-size: 2.5em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .fud-generator {
+                padding: 20px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .notification {
+                right: 20px;
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="a.png" alt="FudDotFun Logo" class="logo">
+        <a href="https://twitter.com/fuddotfun" target="_blank" class="twitter-link">𝕏</a>
+    </header>
+
+    <main>
+        <div class="hero">
+            <p class="subtitle">Every roast, every doubt, every FUD post triggers creator rewards that auto-buy the token. The more you hate it, the more it pumps.</p>
+        </div>
+
+        <div class="fud-generator">
+            <div class="fud-display empty" id="fudDisplay"></div>
+            <div class="button-group">
+                <button id="generateBtn">GENERATE FUD</button>
+                <button id="copyBtn" style="display: none;">COPY MESSAGE</button>
+                <button id="tweetBtn" style="display: none;">POST ON 𝕏</button>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">Total FUD Generated</div>
+                <div class="stat-value" id="totalFud">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Referral Activity</div>
+                <div class="stat-value" id="referralActivity">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">FUD Heat Level</div>
+                <div class="stat-value" id="fudHeat">🔥</div>
+            </div>
+        </div>
+    </main>
+
+    <div class="notification" id="notification">Copied to clipboard!</div>
+
+    <script>
+        const fudTemplates = [
+            "This token is literally just vibes and cope. But hey, at least it's honest about being trash.",
+            "I've seen better tokenomics on a napkin. Actually, the napkin had more utility.",
+            "Everyone's gonna dump this faster than they found it. Mark my words.",
+            "This project screams exit scam but with extra steps and worse graphics.",
+            "Imagine buying this unironically. Couldn't be me. Well, maybe just a little.",
+            "The devs probably don't even hold their own token. That's how cooked this is.",
+            "This is what happens when you let terminal brain make a memecoin. Absolute disaster.",
+            "Zero utility, zero roadmap, zero chance. But somehow still more honest than most projects.",
+            "I give it 48 hours before everyone forgets this exists. Being generous with 48.",
+            "This token was dead on arrival. The grave was pre-dug. RIP in advance.",
+            "Liquidity thinner than my patience for another memecoin cash grab. Hard pass.",
+            "The only thing pumping is the copium from people who bought the top.",
+            "Community? More like a group chat of people coping together. Beautiful disaster.",
+            "This is the kind of project your wallet warns you about. For good reason.",
+            "Fundamentals? Never heard of her. This is pure degen roulette with worse odds.",
+            "Chart looks like my heartbeat after seeing my portfolio. Flatlining soon.",
+            "The whitepaper is just a meme and three crying emojis. Actually respect that honesty.",
+            "This makes LUNA look like a sound investment. That's how cooked we are.",
+            "Devs are anonymous for a reason. They know what's coming. Full rug vibes.",
+            "Buy if you hate money. Seriously, just light it on fire instead. Faster that way."
+        ];
+
+        let userCode = generateUserCode();
+        let currentFud = '';
+        let stats = loadStats();
+
+        function generateUserCode() {
+            const stored = localStorage.getItem('fudUserCode');
+            if (stored) return stored;
+            
+            const code = Math.random().toString(36).substring(2, 10).toUpperCase();
+            localStorage.setItem('fudUserCode', code);
+            return code;
+        }
+
+        function loadStats() {
+            const stored = localStorage.getItem('fudStats');
+            if (stored) return JSON.parse(stored);
+            return { totalFud: 0, referralActivity: 0 };
+        }
+
+        function saveStats() {
+            localStorage.setItem('fudStats', JSON.stringify(stats));
+            updateStatsDisplay();
+        }
+
+        function updateStatsDisplay() {
+            document.getElementById('totalFud').textContent = stats.totalFud;
+            document.getElementById('referralActivity').textContent = stats.referralActivity;
+            
+            const heatLevels = ['🔥', '🔥🔥', '🔥🔥🔥', '🔥🔥🔥🔥', '💀'];
+            const heatIndex = Math.min(Math.floor(stats.totalFud / 5), 4);
+            document.getElementById('fudHeat').textContent = heatLevels[heatIndex];
+        }
+
+        function generateFud() {
+            const template = fudTemplates[Math.floor(Math.random() * fudTemplates.length)];
+            const referralUrl = `https://fuddotfun.click?r=${userCode}`;
+            currentFud = `${template}\n\n${referralUrl}`;
+            
+            const display = document.getElementById('fudDisplay');
+            display.textContent = currentFud;
+            display.classList.remove('empty');
+            
+            document.getElementById('copyBtn').style.display = 'inline-block';
+            document.getElementById('tweetBtn').style.display = 'inline-block';
+            
+            stats.totalFud++;
+            saveStats();
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(currentFud).then(() => {
+                showNotification('Copied to clipboard!');
+                stats.referralActivity++;
+                saveStats();
+            }).catch(err => {
+                showNotification('Failed to copy');
+            });
+        }
+
+        function openTweetComposer() {
+            const tweetText = encodeURIComponent(currentFud);
+            const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
+            window.open(tweetUrl, '_blank');
+            
+            stats.referralActivity++;
+            saveStats();
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Check for referral code in URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const referralCode = urlParams.get('r');
+        if (referralCode && referralCode !== userCode) {
+            // Track referral visit
+            const referrals = JSON.parse(localStorage.getItem('referralVisits') || '[]');
+            if (!referrals.includes(referralCode)) {
+                referrals.push(referralCode);
+                localStorage.setItem('referralVisits', JSON.stringify(referrals));
+            }
+        }
+
+        // Event listeners
+        document.getElementById('generateBtn').addEventListener('click', generateFud);
+        document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+        document.getElementById('tweetBtn').addEventListener('click', openTweetComposer);
+
+        // Initialize stats display
+        updateStatsDisplay();
+    </script>
+</body>
+</html>
